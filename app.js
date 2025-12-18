@@ -19,7 +19,8 @@ let agentNameEl, agentStatusEl;
 async function initializeChat() {
     try {
         if (!window.OmnichannelChatSDK) {
-            console.error('Chat SDK not loaded');
+            console.warn('Chat SDK not loaded - this may be due to browser tracking prevention. Widget UI will still work.');
+            addSystemMessage('Chat SDK not available. Please check browser settings or try a different browser.');
             return;
         }
 
@@ -37,7 +38,9 @@ async function initializeChat() {
         await startChatSession();
     } catch (error) {
         console.error('Error initializing chat:', error);
-        addSystemMessage('Failed to initialize chat. Please refresh the page.');
+        addSystemMessage('Failed to connect to chat service. Widget UI is available for demo purposes.');
+    }
+}
     }
 }
 

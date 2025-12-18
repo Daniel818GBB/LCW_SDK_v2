@@ -64,8 +64,8 @@
         </button>
     </div>
 
-    <!-- Load Chat SDK from CDN -->
-    <script src="https://unpkg.com/@microsoft/omnichannel-chat-sdk@latest/dist/omnichannel-chat-sdk.js"></script>
+    <!-- Load Chat SDK from CDN (optional - widget UI works without it) -->
+    <script src="https://unpkg.com/@microsoft/omnichannel-chat-sdk@latest/dist/omnichannel-chat-sdk.js" async onerror="console.warn('Chat SDK failed to load - UI will still work')"></script>
     <script src="app.js"></script>
 </body>
 </html>

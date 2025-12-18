@@ -307,6 +307,7 @@ body {
     justify-content: flex-start;
     align-items: center;
     gap: 8px;
+    position: relative;
 }
 
 .action-btn {
@@ -327,29 +328,82 @@ body {
     display: none;
 }
 
-.file-btn {
+/* More Options (3-dots) Button */
+.more-options-btn {
     background: #f0f0f0;
     border: 1px solid #ddd;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 500;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: bold;
     color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-.file-btn:hover {
+.more-options-btn:hover {
     background: #e0e0e0;
+    transform: scale(1.05);
 }
 
-.voice-video-btn {
-    background: linear-gradient(135deg, #28a745 0%, #20863c 100%);
+.more-options-btn.active {
+    background: linear-gradient(135deg, #c155d9 0%, #8b3fa6 100%);
     color: white;
-    border: none;
-    padding: 8px 12px;
+    border-color: transparent;
+}
+
+/* Slide-out Drawer */
+.options-drawer {
+    position: absolute;
+    left: 50px;
+    bottom: 0;
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transform: translateX(-20px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.options-drawer.open {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.drawer-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-size: 13px;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.drawer-option:hover {
+    background: #f8f8f8;
+    border-color: #c155d9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.drawer-icon {
     font-size: 16px;
 }
 
-.voice-video-btn:hover {
-    background: linear-gradient(135deg, #34ce57 0%, #28a745 100%);
+.drawer-label {
+    font-weight: 500;
 }
 
 .send-btn {

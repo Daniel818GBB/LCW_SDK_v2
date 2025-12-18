@@ -1,8 +1,8 @@
 // Omnichannel Chat SDK Configuration
 const omnichannelConfig = {
-    orgUrl: "https://your-org.omnichannelengagement.dynamics.com", // Replace with your org URL
-    orgId: "your-org-id", // Replace with your org ID
-    widgetId: "your-widget-id" // Replace with your widget ID
+    orgUrl: "https://m-94ba561f-fde2-ef11-933d-000d3a106b31.us.omnichannelengagementhub.com",
+    orgId: "94ba561f-fde2-ef11-933d-000d3a106b31",
+    widgetId: "287fd365-5c88-498f-95ed-4516db91c3b0"
 };
 
 let chatSDK = null;
@@ -11,8 +11,9 @@ let isMinimized = false;
 let messages = [];
 
 // DOM Elements - will be initialized on DOMContentLoaded
-let chatContainer, chatToggle, chatToggleWrapper, closeBtn, minimizeBtn, downloadBtn;
-let sendBtn, messageInput, chatMessages, attachBtn, fileInput, voiceVideoBtn;
+let chatContainer, chatToggle, chatToggleWrapper, closeBtn, minimizeBtn;
+let sendBtn, messageInput, chatMessages, attachBtn, fileInput, voiceVideoBtn, transcriptBtn;
+let moreOptionsBtn, optionsDrawer;
 let agentNameEl, agentStatusEl;
 let voiceVideoCallingSDK = null;
 
@@ -58,10 +59,29 @@ async function startChatSession() {
     try {
         await chatSDK.startChat();
         console.log('Chat session started');
-        addSystemMessage('Chat session started. An agent will be with you shortly.');
+        
+        // Fetch initial messages (including bot greeting)
+        await fetchInitialMessages();
+        
         await updateAgentInfo();
     } catch (error) {
         console.error('Error starting chat:', error);
+    }
+}
+
+// Fetch initial messages from the conversation (bot greeting, etc.)
+async function fetchInitialMessages() {
+    try {
+        const messages = await chatSDK.getMessages();
+        console.log('Initial messages:', messages);
+        
+        if (messages && messages.length > 0) {
+            messages.forEach(message => {
+                handleNewMessage(message);
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching initial messages:', error);
     }
 }
 
@@ -307,13 +327,15 @@ document.addEventListener('DOMContentLoaded', function() {
     chatToggleWrapper = document.querySelector('.chat-toggle-wrapper');
     closeBtn = document.getElementById('closeBtn');
     minimizeBtn = document.getElementById('minimizeBtn');
-    downloadBtn = document.getElementById('downloadBtn');
     sendBtn = document.getElementById('sendBtn');
     messageInput = document.getElementById('messageInput');
     chatMessages = document.getElementById('chatMessages');
     attachBtn = document.getElementById('attachBtn');
     fileInput = document.getElementById('fileInput');
     voiceVideoBtn = document.getElementById('voiceVideoBtn');
+    transcriptBtn = document.getElementById('transcriptBtn');
+    moreOptionsBtn = document.getElementById('moreOptionsBtn');
+    optionsDrawer = document.getElementById('optionsDrawer');
     agentNameEl = document.getElementById('agentName');
     agentStatusEl = document.getElementById('agentStatus');
 
@@ -341,6 +363,11 @@ document.addEventListener('DOMContentLoaded', function() {
         chatContainer.classList.remove('chat-widget-minimized');
         chatToggleWrapper.classList.remove('hidden');
         minimizeBtn.textContent = '-';
+        // Close drawer when closing widget
+        if (optionsDrawer) {
+            optionsDrawer.classList.remove('open');
+            moreOptionsBtn.classList.remove('active');
+        }
     }
 
     // Minimize widget
@@ -355,11 +382,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Toggle options drawer
+    function toggleOptionsDrawer() {
+        optionsDrawer.classList.toggle('open');
+        moreOptionsBtn.classList.toggle('active');
+    }
+
+    // Close drawer when clicking outside
+    document.addEventListener('click', function(e) {
+        if (optionsDrawer && moreOptionsBtn) {
+            if (!optionsDrawer.contains(e.target) && !moreOptionsBtn.contains(e.target)) {
+                optionsDrawer.classList.remove('open');
+                moreOptionsBtn.classList.remove('active');
+            }
+        }
+    });
+
     // Event Listeners
     if (chatToggle) chatToggle.addEventListener('click', toggleWidget);
     if (closeBtn) closeBtn.addEventListener('click', closeWidget);
     if (minimizeBtn) minimizeBtn.addEventListener('click', minimizeWidget);
-    if (downloadBtn) downloadBtn.addEventListener('click', downloadTranscript);
+    if (moreOptionsBtn) moreOptionsBtn.addEventListener('click', toggleOptionsDrawer);
     if (sendBtn) sendBtn.addEventListener('click', sendMessage);
     if (messageInput) {
         messageInput.addEventListener('keypress', function(e) {
@@ -372,6 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (attachBtn) attachBtn.addEventListener('click', handleAttachment);
     if (fileInput) fileInput.addEventListener('change', handleFileSelected);
     if (voiceVideoBtn) voiceVideoBtn.addEventListener('click', handleVoiceVideoCall);
+    if (transcriptBtn) transcriptBtn.addEventListener('click', downloadTranscript);
 
     console.log('Chat widget UI initialized successfully');
     

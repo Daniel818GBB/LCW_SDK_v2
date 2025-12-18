@@ -27,7 +27,6 @@
                 </div>
             </div>
             <div class="header-actions">
-                <button class="header-btn" id="downloadBtn" title="Download transcript">⬇</button>
                 <button class="header-btn" id="minimizeBtn" title="Minimize">−</button>
                 <button class="header-btn" id="closeBtn" title="Close">✕</button>
             </div>
@@ -46,8 +45,22 @@
             </div>
             <div class="input-actions">
                 <input type="file" id="fileInput" class="file-input-hidden" accept="image/*,.pdf,.doc,.docx,.txt" />
-                <button class="action-btn file-btn" id="attachBtn" title="Attach file">Attach File</button>
-                <button class="action-btn voice-video-btn" id="voiceVideoBtn" title="Voice/Video Call">📞</button>
+                <button class="action-btn more-options-btn" id="moreOptionsBtn" title="More options">⋯</button>
+                <!-- Slide-out drawer -->
+                <div class="options-drawer" id="optionsDrawer">
+                    <button class="drawer-option" id="attachBtn" title="Attach file">
+                        <span class="drawer-icon">📎</span>
+                        <span class="drawer-label">Attach File</span>
+                    </button>
+                    <button class="drawer-option" id="voiceVideoBtn" title="Voice/Video Call">
+                        <span class="drawer-icon">📞</span>
+                        <span class="drawer-label">Voice/Video Call</span>
+                    </button>
+                    <button class="drawer-option" id="transcriptBtn" title="Download Transcript">
+                        <span class="drawer-icon">⬇</span>
+                        <span class="drawer-label">Download Transcript</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

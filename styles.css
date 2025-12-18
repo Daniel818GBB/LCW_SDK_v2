@@ -326,10 +326,83 @@ body {
 }
 
 /* Chat Toggle Button */
-.chat-toggle {
+.chat-toggle-wrapper {
     position: fixed;
     bottom: 20px;
     right: 20px;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+}
+
+.chat-toggle-wrapper.hidden {
+    display: none;
+}
+
+.chat-toggle-ring {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        #c155d9,
+        #8b3fa6,
+        #5b7dd6,
+        #3d5fbf,
+        #c155d9
+    );
+    animation: spin-ring 2s linear infinite;
+    padding: 4px;
+}
+
+.chat-toggle-ring::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    background: #e8e8e8;
+    border-radius: 50%;
+}
+
+@keyframes spin-ring {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Glow effect */
+.chat-toggle-ring::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        rgba(193, 85, 217, 0.6),
+        rgba(139, 63, 166, 0.6),
+        rgba(91, 125, 214, 0.6),
+        rgba(61, 95, 191, 0.6),
+        rgba(193, 85, 217, 0.6)
+    );
+    animation: spin-ring 2s linear infinite;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.chat-toggle {
+    position: relative;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -343,7 +416,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    z-index: 9998;
+    z-index: 2;
 }
 
 .chat-toggle:hover {

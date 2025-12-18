@@ -10,20 +10,10 @@ let isWidgetOpen = false;
 let isMinimized = false;
 let messages = [];
 
-// DOM Elements
-const chatContainer = document.getElementById('chat-widget-container');
-const chatToggle = document.getElementById('chatToggle');
-const closeBtn = document.getElementById('closeBtn');
-const minimizeBtn = document.getElementById('minimizeBtn');
-const downloadBtn = document.getElementById('downloadBtn');
-const sendBtn = document.getElementById('sendBtn');
-const messageInput = document.getElementById('messageInput');
-const chatMessages = document.getElementById('chatMessages');
-const attachBtn = document.getElementById('attachBtn');
-const emojiBtn = document.getElementById('emojiBtn');
-const voiceBtn = document.getElementById('voiceBtn');
-const agentNameEl = document.getElementById('agentName');
-const agentStatusEl = document.getElementById('agentStatus');
+// DOM Elements - will be initialized on DOMContentLoaded
+let chatContainer, chatToggle, chatToggleWrapper, closeBtn, minimizeBtn, downloadBtn;
+let sendBtn, messageInput, chatMessages, attachBtn, emojiBtn, voiceBtn;
+let agentNameEl, agentStatusEl;
 
 // Initialize Chat SDK
 async function initializeChat() {
@@ -335,23 +325,81 @@ function formatTime(timestamp) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-// Event Listeners
-chatToggle.addEventListener('click', toggleWidget);
-closeBtn.addEventListener('click', closeWidget);
-minimizeBtn.addEventListener('click', minimizeWidget);
-downloadBtn.addEventListener('click', downloadTranscript);
-sendBtn.addEventListener('click', sendMessage);
-messageInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-    }
-});
-attachBtn.addEventListener('click', handleAttachment);
-emojiBtn.addEventListener('click', handleEmoji);
-voiceBtn.addEventListener('click', handleVoice);
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+    // Get DOM Elements after page loads
+    chatContainer = document.getElementById('chat-widget-container');
+    chatToggle = document.getElementById('chatToggle');
+    chatToggleWrapper = document.querySelector('.chat-toggle-wrapper');
+    closeBtn = document.getElementById('closeBtn');
+    minimizeBtn = document.getElementById('minimizeBtn');
+    downloadBtn = document.getElementById('downloadBtn');
+    sendBtn = document.getElementById('sendBtn');
+    messageInput = document.getElementById('messageInput');
+    chatMessages = document.getElementById('chatMessages');
+    attachBtn = document.getElementById('attachBtn');
+    emojiBtn = document.getElementById('emojiBtn');
+    voiceBtn = document.getElementById('voiceBtn');
+    agentNameEl = document.getElementById('agentName');
+    agentStatusEl = document.getElementById('agentStatus');
+
+    // Toggle widget function
+    function toggleWidget() {
+        console.log('Toggle clicked!');
+        isWidgetOpen = !isWidgetOpen;
+
+        if (isWidgetOpen) {
+            chatContainer.classList.remove('chat-widget-hidden');
+            chatToggleWrapper.classList.add('hidden');
+        } else {
+            chatContainer.classList.add('chat-widget-hidden');
+            chatToggleWrapper.classList.remove('hidden');
+            isMinimized = false;
+            chatContainer.classList.remove('chat-widget-minimized');
+        }
+    }
+
+    // Close widget function
+    function closeWidget() {
+        isWidgetOpen = false;
+        isMinimized = false;
+        chatContainer.classList.add('chat-widget-hidden');
+        chatContainer.classList.remove('chat-widget-minimized');
+        chatToggleWrapper.classList.remove('hidden');
+        minimizeBtn.textContent = '−';
+    }
+
+    // Minimize widget function
+    function minimizeWidget() {
+        isMinimized = !isMinimized;
+        
+        if (isMinimized) {
+            chatContainer.classList.add('chat-widget-minimized');
+            minimizeBtn.textContent = '+';
+        } else {
+            chatContainer.classList.remove('chat-widget-minimized');
+            minimizeBtn.textContent = '−';
+        }
+    }
+
+    // Event Listeners
+    chatToggle.addEventListener('click', toggleWidget);
+    closeBtn.addEventListener('click', closeWidget);
+    minimizeBtn.addEventListener('click', minimizeWidget);
+    downloadBtn.addEventListener('click', downloadTranscript);
+    sendBtn.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    attachBtn.addEventListener('click', handleAttachment);
+    emojiBtn.addEventListener('click', handleEmoji);
+    voiceBtn.addEventListener('click', handleVoice);
+
+    console.log('Chat widget UI initialized');
+    
+    // Initialize chat SDK (optional - widget will still open without it)
     initializeChat();
 });

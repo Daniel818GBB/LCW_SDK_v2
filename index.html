@@ -57,9 +57,12 @@
     </div>
 
     <!-- Chat Toggle Button (Floating) -->
-    <button id="chatToggle" class="chat-toggle" title="Open chat">
-        <span>💬</span>
-    </button>
+    <div class="chat-toggle-wrapper">
+        <div class="chat-toggle-ring"></div>
+        <button id="chatToggle" class="chat-toggle" title="Open chat">
+            <span>💬</span>
+        </button>
+    </div>
 
     <!-- Load Chat SDK from CDN -->
     <script src="https://unpkg.com/@microsoft/omnichannel-chat-sdk@latest/dist/omnichannel-chat-sdk.js"></script>

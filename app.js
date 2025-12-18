@@ -41,8 +41,6 @@ async function initializeChat() {
         addSystemMessage('Failed to connect to chat service. Widget UI is available for demo purposes.');
     }
 }
-    }
-}
 
 // Setup message listeners
 function setupMessageListeners() {

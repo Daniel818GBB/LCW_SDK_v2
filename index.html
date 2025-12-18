@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omnichannel Chat Widget</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Light gray background page -->
+    <div class="page-background">
+        <div class="page-content">
+            <h1>Welcome to Our Support</h1>
+            <p>Our chat widget appears in the bottom right corner</p>
+        </div>
+    </div>
+
+    <!-- Chat Widget Container -->
+    <div id="chat-widget-container" class="chat-widget-hidden">
+        <!-- Chat Widget Header -->
+        <div class="chat-header">
+            <div class="agent-info">
+                <div class="agent-avatar">MO</div>
+                <div class="agent-details">
+                    <div class="agent-name" id="agentName">Mauricio Oliveira</div>
+                    <div class="agent-status" id="agentStatus">Online</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="downloadBtn" title="Download transcript">⬇</button>
+                <button class="header-btn" id="minimizeBtn" title="Minimize">−</button>
+                <button class="header-btn" id="closeBtn" title="Close">✕</button>
+            </div>
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be populated here -->
+            <div class="system-message">
+                <p>An agent will be with you in a moment.</p>
+            </div>
+            <div class="system-message">
+                <p>You're next in line.</p>
+            </div>
+        </div>
+
+        <!-- Chat Input Area -->
+        <div class="chat-input-section">
+            <textarea id="messageInput" class="message-input" placeholder="Type your message..." rows="3"></textarea>
+            <div class="input-actions">
+                <button class="action-btn" id="attachBtn" title="Attach file">📎</button>
+                <button class="action-btn" id="emojiBtn" title="Add emoji">😊</button>
+                <button class="action-btn" id="voiceBtn" title="Voice message">🎤</button>
+                <button class="send-btn" id="sendBtn">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Toggle Button (Floating) -->
+    <button id="chatToggle" class="chat-toggle" title="Open chat">
+        <span>💬</span>
+    </button>
+
+    <!-- Load Chat SDK from CDN -->
+    <script src="https://unpkg.com/@microsoft/omnichannel-chat-sdk@latest/dist/omnichannel-chat-sdk.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

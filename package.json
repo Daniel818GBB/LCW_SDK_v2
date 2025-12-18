@@ -1,0 +1,17 @@
+{
+  "name": "omnichannel-custom-chat-widget",
+  "version": "1.0.0",
+  "description": "Custom chat widget for Azure Static Web App",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server",
+    "build": "echo 'Static files ready for deployment'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": ["omnichannel", "chat", "widget"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

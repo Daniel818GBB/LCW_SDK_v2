@@ -12,8 +12,9 @@ let messages = [];
 
 // DOM Elements - will be initialized on DOMContentLoaded
 let chatContainer, chatToggle, chatToggleWrapper, closeBtn, minimizeBtn, downloadBtn;
-let sendBtn, messageInput, chatMessages, attachBtn, emojiBtn, voiceBtn;
+let sendBtn, messageInput, chatMessages, attachBtn, fileInput, voiceVideoBtn;
 let agentNameEl, agentStatusEl;
+let voiceVideoCallingSDK = null;
 
 // Initialize Chat SDK
 async function initializeChat() {
@@ -29,6 +30,7 @@ async function initializeChat() {
 
         setupMessageListeners();
         await startChatSession();
+        await initializeVoiceVideoCalling();
     } catch (error) {
         console.error('Error initializing chat:', error);
     }
@@ -193,19 +195,93 @@ async function downloadTranscript() {
     }
 }
 
-// Handle attachment
-function handleAttachment() {
-    addSystemMessage('File attachments are not yet supported in this demo.');
+// Initialize Voice/Video Calling
+async function initializeVoiceVideoCalling() {
+    try {
+        if (!chatSDK) return;
+        
+        voiceVideoCallingSDK = await chatSDK.getVoiceVideoCalling();
+        console.log('Voice/Video Calling SDK loaded');
+
+        const chatToken = await chatSDK.getChatToken();
+        
+        await voiceVideoCallingSDK.initialize({
+            chatToken,
+            selfVideoHTMLElementId: 'selfVideo',
+            remoteVideoHTMLElementId: 'remoteVideo',
+            OCClient: chatSDK.OCClient
+        });
+
+        // Handle incoming calls
+        voiceVideoCallingSDK.onCallAdded(() => {
+            console.log('Incoming call...');
+            addSystemMessage('Incoming voice/video call from agent...');
+        });
+
+        voiceVideoCallingSDK.onCallDisconnected(() => {
+            console.log('Call disconnected');
+            addSystemMessage('Voice/video call ended.');
+        });
+
+        console.log('Voice/Video Calling initialized');
+    } catch (error) {
+        console.log('Voice/Video Calling not available:', error.message);
+        if (error.message === 'UnsupportedPlatform') {
+            console.log('Voice/Video not supported on this platform');
+        } else if (error.message === 'FeatureDisabled') {
+            console.log('Voice/Video feature is disabled');
+        }
+    }
 }
 
-// Handle emoji
-function handleEmoji() {
-    addSystemMessage('Emoji picker is not yet supported in this demo.');
+// Handle file attachment
+async function handleAttachment() {
+    fileInput.click();
 }
 
-// Handle voice
-function handleVoice() {
-    addSystemMessage('Voice messages are not yet supported in this demo.');
+// Handle file selection
+async function handleFileSelected(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    addSystemMessage(`Uploading file: ${file.name}...`);
+
+    try {
+        if (chatSDK) {
+            await chatSDK.uploadFileAttachment(file);
+            addSystemMessage(`File "${file.name}" uploaded successfully.`);
+        } else {
+            addSystemMessage('Cannot upload file - Chat SDK not connected.');
+        }
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        addSystemMessage(`Failed to upload file: ${error.message}`);
+    }
+
+    // Clear the input
+    fileInput.value = '';
+}
+
+// Handle Voice/Video Call
+async function handleVoiceVideoCall() {
+    if (!voiceVideoCallingSDK) {
+        addSystemMessage('Voice/Video calling is not available. Please ensure you are connected to an agent.');
+        return;
+    }
+
+    try {
+        // Check if there's an active call
+        const isMuted = voiceVideoCallingSDK.isMicrophoneMuted();
+        
+        // If no call, show message
+        addSystemMessage('Requesting voice/video call with agent...');
+        
+        // Note: The agent initiates the call, customer can accept/reject
+        // This button is typically for accepting incoming calls
+    } catch (error) {
+        console.error('Voice/Video call error:', error);
+        addSystemMessage('Voice/Video calling requires an active agent connection.');
+    }
 }
 
 // Utility: Escape HTML
@@ -236,8 +312,8 @@ document.addEventListener('DOMContentLoaded', function() {
     messageInput = document.getElementById('messageInput');
     chatMessages = document.getElementById('chatMessages');
     attachBtn = document.getElementById('attachBtn');
-    emojiBtn = document.getElementById('emojiBtn');
-    voiceBtn = document.getElementById('voiceBtn');
+    fileInput = document.getElementById('fileInput');
+    voiceVideoBtn = document.getElementById('voiceVideoBtn');
     agentNameEl = document.getElementById('agentName');
     agentStatusEl = document.getElementById('agentStatus');
 
@@ -294,8 +370,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     if (attachBtn) attachBtn.addEventListener('click', handleAttachment);
-    if (emojiBtn) emojiBtn.addEventListener('click', handleEmoji);
-    if (voiceBtn) voiceBtn.addEventListener('click', handleVoice);
+    if (fileInput) fileInput.addEventListener('change', handleFileSelected);
+    if (voiceVideoBtn) voiceVideoBtn.addEventListener('click', handleVoiceVideoCall);
 
     console.log('Chat widget UI initialized successfully');
     

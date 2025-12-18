@@ -267,15 +267,19 @@ body {
     flex-shrink: 0;
 }
 
+.message-input-wrapper {
+    position: relative;
+    margin-bottom: 10px;
+}
+
 .message-input {
     width: 100%;
-    padding: 10px 12px;
+    padding: 10px 50px 10px 12px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     font-size: 14px;
     font-family: inherit;
     resize: none;
-    margin-bottom: 10px;
     transition: border-color 0.2s;
 }
 
@@ -284,9 +288,23 @@ body {
     border-color: #d946ef;
 }
 
+.message-input-wrapper .send-btn {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin-left: 0;
+}
+
 .input-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     gap: 8px;
 }
@@ -303,6 +321,35 @@ body {
 
 .action-btn:hover {
     background: #f5f5f5;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.file-btn {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+}
+
+.file-btn:hover {
+    background: #e0e0e0;
+}
+
+.voice-video-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20863c 100%);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+}
+
+.voice-video-btn:hover {
+    background: linear-gradient(135deg, #34ce57 0%, #28a745 100%);
 }
 
 .send-btn {

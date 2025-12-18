@@ -332,10 +332,10 @@ body {
 .more-options-btn {
     background: #f0f0f0;
     border: 1px solid #ddd;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     color: #666;
     display: flex;
@@ -359,29 +359,31 @@ body {
 /* Slide-out Drawer */
 .options-drawer {
     position: absolute;
-    left: 50px;
-    bottom: 0;
+    left: 0;
+    bottom: 45px;
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 6px;
     opacity: 0;
-    transform: translateX(-20px);
+    transform: translateY(10px);
     pointer-events: none;
     transition: all 0.3s ease;
+    z-index: 10;
 }
 
 .options-drawer.open {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
     pointer-events: auto;
 }
 
 .drawer-option {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
+    gap: 8px;
+    padding: 10px 14px;
     border: 1px solid #e0e0e0;
-    border-radius: 20px;
+    border-radius: 8px;
     background: white;
     cursor: pointer;
     transition: all 0.2s;
@@ -394,7 +396,6 @@ body {
 .drawer-option:hover {
     background: #f8f8f8;
     border-color: #c155d9;
-    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 

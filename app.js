@@ -108,23 +108,47 @@ function getInitials(name) {
 
 // Handle new messages
 function handleNewMessage(message) {
+    console.log('Processing message:', message);
     messages.push(message);
-    if (message.messagetype === 'UserMessage' || message.messagetype === 'Message') {
-        const senderInfo = getSenderInfo(message);
-        addAgentMessage(message.text, message.timestamp, senderInfo);
-    } else if (message.messagetype === 'SystemMessage') {
-        addSystemMessage(message.text);
+    
+    // Get the message content - different SDK versions use different properties
+    const content = message.content || message.text || message.body || '';
+    
+    if (!content) {
+        console.log('Message has no content, skipping');
+        return;
     }
+    
+    // Determine if this is a customer message or agent/bot message
+    const isCustomerMessage = message.deliveryMode === 'deliveredToAgent' || 
+                              message.sender?.role === 'customer' ||
+                              message.tags?.includes('ChannelId-lcw');
+    
+    if (isCustomerMessage) {
+        // Don't re-add customer messages (we already add them when sending)
+        console.log('Skipping customer message (already displayed)');
+        return;
+    }
+    
+    // This is an agent or bot message
+    const senderInfo = getSenderInfo(message);
+    addAgentMessage(content, message.timestamp || new Date(), senderInfo);
 }
 
 // Get sender information
 function getSenderInfo(message) {
     const senderInfo = {
-        name: message.sender?.displayName || 'Support',
-        role: message.role || 'unknown',
+        name: message.sender?.displayName || message.senderDisplayName || 'Support',
+        role: message.role || message.sender?.role || 'unknown',
         avatar: null,
-        isBot: message.role === 'bot' || message.sender?.type === 2
+        isBot: false
     };
+    
+    // Detect if sender is a bot
+    senderInfo.isBot = senderInfo.role === 'bot' || 
+                       message.sender?.type === 2 ||
+                       message.senderType === 'Bot' ||
+                       (senderInfo.name && senderInfo.name.toLowerCase().includes('bot'));
 
     if (senderInfo.isBot) {
         senderInfo.avatar = '🤖';

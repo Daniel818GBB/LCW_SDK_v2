@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omnichannel Chat Widget</title>
+    <title>Welcome</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,70 +11,15 @@
     <div class="page-background">
         <div class="page-content">
             <h1>Welcome to Our Support</h1>
-            <p>Our chat widget appears in the bottom right corner</p>
+            <p>We're here to help you</p>
         </div>
     </div>
 
-    <!-- Chat Widget Container -->
-    <div id="chat-widget-container" class="chat-widget-hidden">
-        <!-- Chat Widget Header -->
-        <div class="chat-header">
-            <div class="agent-info">
-                <div class="agent-avatar">CC</div>
-                <div class="agent-details">
-                    <div class="agent-name" id="agentName">Contoso Companion</div>
-                    <div class="agent-status" id="agentStatus">Online</div>
-                </div>
-            </div>
-            <div class="header-actions">
-                <button class="header-btn" id="minimizeBtn" title="Minimize">−</button>
-                <button class="header-btn" id="closeBtn" title="Close">✕</button>
-            </div>
-        </div>
-
-        <!-- Chat Messages Area -->
-        <div class="chat-messages" id="chatMessages">
-            <!-- Messages will be populated dynamically by the SDK -->
-        </div>
-
-        <!-- Chat Input Area -->
-        <div class="chat-input-section">
-            <div class="message-input-wrapper">
-                <textarea id="messageInput" class="message-input" placeholder="Type your message..." rows="2"></textarea>
-                <button class="send-btn" id="sendBtn">➤</button>
-            </div>
-            <div class="input-actions">
-                <input type="file" id="fileInput" class="file-input-hidden" accept="image/*,.pdf,.doc,.docx,.txt" />
-                <button class="action-btn more-options-btn" id="moreOptionsBtn" title="More options">⋯</button>
-                <!-- Slide-out drawer -->
-                <div class="options-drawer" id="optionsDrawer">
-                    <button class="drawer-option" id="attachBtn" title="Attach file">
-                        <span class="drawer-icon">📎</span>
-                        <span class="drawer-label">Attach File</span>
-                    </button>
-                    <button class="drawer-option" id="voiceVideoBtn" title="Voice/Video Call">
-                        <span class="drawer-icon">📞</span>
-                        <span class="drawer-label">Voice/Video Call</span>
-                    </button>
-                    <button class="drawer-option" id="transcriptBtn" title="Download Transcript">
-                        <span class="drawer-icon">⬇</span>
-                        <span class="drawer-label">Download Transcript</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Chat Toggle Button (Floating) -->
-    <div class="chat-toggle-wrapper">
-        <div class="chat-toggle-ring"></div>
-        <button id="chatToggle" class="chat-toggle" title="Open chat">
-            <span>💬</span>
-        </button>
-    </div>
-
-    <!-- Load Chat SDK from CDN (optional - widget UI works without it) -->
-    <script src="https://unpkg.com/@microsoft/omnichannel-chat-sdk@latest/dist/omnichannel-chat-sdk.js" async onerror="console.warn('Chat SDK failed to load - UI will still work')"></script>
-    <script src="app.js"></script>
+    <!-- D365 Chat Widget - Compact Loader (Power Pages Compatible) -->
+    <!-- Generated: 1/21/2026 | Size: ~1.5KB -->
+    <script>
+    window.D365WidgetConfig={"orgId":"94ba561f-fde2-ef11-933d-000d3a106b31","orgUrl":"https://m-94ba561f-fde2-ef11-933d-000d3a106b31.us.omnichannelengagementhub.com","widgetId":"640eba6e-9656-453d-a289-8f3280848983","agentAvatar":"https://raw.githubusercontent.com/moliveirapinto/d365-modern-chat-widget/main/img/headshots/headshot_male4.png","customerAvatar":"https://raw.githubusercontent.com/moliveirapinto/d365-modern-chat-widget/main/img/headshots/headshot_male2.png","botAvatar":"https://raw.githubusercontent.com/moliveirapinto/d365-modern-chat-widget/main/img/bot/bot5.png","enablePrechatForm":false,"welcomeTitle":"Start a conversation","welcomeMessage":"We're here to help! Please fill out the form below to start chatting with our team.","nameFieldLabel":"Your Name","emailFieldLabel":"Email Address"};
+    (function(){var s=document.createElement('script');s.src='https://moliveirapinto.github.io/d365-modern-chat-widget/dist/widget-core.js';document.head.appendChild(s);})();
+    </script>
 </body>
 </html>
